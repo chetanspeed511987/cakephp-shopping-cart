@@ -1,13 +1,25 @@
 <?php
 App::uses('AppController', 'Controller');
+/**
+ * Tags Controller
+ *
+ * @property Tag $Tag
+ */
 class TagsController extends AppController {
 
-////////////////////////////////////////////////////////////
-
+/**
+ * Array containing the names of components this controller uses. 
+ *
+ * @var array
+ */
 	public $components = array('Paginator');
 
-////////////////////////////////////////////////////////////
 
+/**
+ * admin_index method
+ *
+ * @return void
+ */
 	public function admin_index() {
 
 		$this->Paginator->settings = array(
@@ -21,8 +33,13 @@ class TagsController extends AppController {
 		$this->set('tags', $this->Paginator->paginate('Tag'));
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * admin_view method
+ *
+ * @throws NotFoundException
+ * @param int $id
+ * @return void
+ */
 	public function admin_view($id = null) {
 		if (!$this->Tag->exists($id)) {
 			throw new NotFoundException('Invalid tag');
@@ -31,8 +48,12 @@ class TagsController extends AppController {
 		$this->set('tag', $this->Tag->find('first', $options));
 	}
 
-////////////////////////////////////////////////////////////
 
+/**
+ * admin_add method
+ *
+ * @return void
+ */
 	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->Tag->create();
@@ -46,8 +67,13 @@ class TagsController extends AppController {
 		}
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * admin_edit method
+ *
+ * @throws NotFoundException
+ * @param int $id
+ * @return void
+ */
 	public function admin_edit($id = null) {
 		if (!$this->Tag->exists($id)) {
 			throw new NotFoundException('Invalid tag');
@@ -65,8 +91,14 @@ class TagsController extends AppController {
 		}
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * admin_delete method
+ *
+ * @throws MethodNotAllowedException
+ * @throws NotFoundException
+ * @param int $id 
+ * @return void
+ */
 	public function admin_delete($id = null) {
 		$this->Tag->id = $id;
 		if (!$this->Tag->exists()) {
@@ -80,7 +112,5 @@ class TagsController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
-
-////////////////////////////////////////////////////////////
 
 }

@@ -1,16 +1,23 @@
 <?php
 App::uses('AppController', 'Controller');
+/**
+ * Users Controller
+ *
+ * @property User $User
+ */
 class UsersController extends AppController {
 
-////////////////////////////////////////////////////////////
 
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow('login');
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * login method
+ *
+ * @return void
+ */
 	public function login() {
 
 		// echo AuthComponent::password('admin');
@@ -45,25 +52,39 @@ class UsersController extends AppController {
 		}
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * logout method
+ *
+ * @return void
+ */
 	public function logout() {
 		$this->Session->setFlash('Good-Bye');
 		return $this->redirect($this->Auth->logout());
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * customer_dashboard method
+ *
+ * @return void
+ */
 	public function customer_dashboard() {
 	}
 
-////////////////////////////////////////////////////////////
+/**
+ * admin_dashboard method
+ *
+ * @return void
+ */
 
 	public function admin_dashboard() {
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * admin_index method
+ *
+ * @throws NotFoundException
+ * @return void
+ */
 	public function admin_index() {
 
 		$this->Paginator = $this->Components->load('Paginator');
@@ -86,8 +107,13 @@ class UsersController extends AppController {
 		$this->set(compact('users'));
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * admin_view method
+ *
+ * @throws NotFoundException
+ * @param int $id
+ * @return void
+ */
 	public function admin_view($id = null) {
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
@@ -96,8 +122,11 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->read(null, $id));
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * admin_add method
+ *
+ * @return void
+ */
 	public function admin_add() {
 		if ($this->request->is('post')) {
 			$this->User->create();
@@ -110,8 +139,13 @@ class UsersController extends AppController {
 		}
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * admin_edit method
+ *
+ * @throws NotFoundException
+ * @param int $id
+ * @return void
+ */
 	public function admin_edit($id = null) {
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
@@ -129,8 +163,13 @@ class UsersController extends AppController {
 		}
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * admin_password method
+ *
+ * @throws NotFoundException
+ * @param int $id
+ * @return void
+ */
 	public function admin_password($id = null) {
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
@@ -148,8 +187,14 @@ class UsersController extends AppController {
 		}
 	}
 
-////////////////////////////////////////////////////////////
-
+/**
+ * admin_delete method
+ *
+ * @throws MethodNotAllowedException
+ * @throws NotFoundException
+ * @param int $id 
+ * @return void
+ */
 	public function admin_delete($id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
@@ -165,7 +210,5 @@ class UsersController extends AppController {
 		$this->Session->setFlash('User was not deleted');
 		return $this->redirect(array('action' => 'index'));
 	}
-
-////////////////////////////////////////////////////////////
 
 }
